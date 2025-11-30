@@ -139,7 +139,7 @@ Admin Panel 3 farklı şekilde host edilir:
 
 ### Repoyu klonlayın
 ```
-git clone https://github.com/struvio/struvio.git
+git clone https://github.com/atifdag/struvio/struvio.git
 ```
 
 ### Connection String’i düzenleyin  
