@@ -1,32 +1,5 @@
 <Solution>
-  <Folder Name="/Core/">
-    <Project Path="Core/Struvio.Application/Struvio.Application.csproj" />
-    <Project Path="Core/Struvio.Domain/Struvio.Domain.csproj" />
-  </Folder>
-  <Folder Name="/Infrastructure/">
-    <Project Path="Infrastructure/Struvio.Infrastructure/Struvio.Infrastructure.csproj" />
-    <Project Path="Infrastructure/Struvio.Persistence/Struvio.Persistence.csproj" />
-  </Folder>
-  <Folder Name="/Shared/">
-    <Project Path="Shared/Struvio.Shared/Struvio.Shared.csproj" />
-  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
-  </Folder>
-  <Folder Name="/Tests/">
-    <Project Path="Tests/Struvio.Application.UnitTests/Struvio.Application.UnitTests.csproj" />
-  </Folder>
-  <Folder Name="/Tools/">
-    <Project Path="Tools/Struvio.Setup/Struvio.Setup.csproj" />
-  </Folder>
-  <Folder Name="/UI/">
-    <Project Path="UI/Struvio.API/Struvio.API.csproj" />
-    <Project Path="UI/Struvio.Web.Common/Struvio.Web.Common.csproj" />
-    <Project Path="UI/Struvio.Web.Mvc/Struvio.Web.Mvc.csproj" />
-  </Folder>
-  <Folder Name="/UI/Clients/">
-    <Project Path="UI/Clients/Struvio.UI.Maui/Struvio.UI.Maui.csproj" />
-    <Project Path="UI/Clients/Struvio.UI.RCL/Struvio.UI.RCL.csproj" />
-    <Project Path="UI/Clients/Struvio.UI.Wasm/Struvio.UI.Wasm.csproj" />
   </Folder>
 </Solution>
