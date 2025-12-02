@@ -96,7 +96,7 @@ Admin Panel 3 farklı şekilde host edilir:
 - **Cache:** HybridCache (Memory + Redis)
 - **Loglama:** Serilog JSON loglama
 - **File Storage:** Local / S3 / DB seçilebilir yapı
-- **API Docs:**Scalar UI**
+- **API Docs:** Scalar UI
 
 ---
 
