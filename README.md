@@ -28,40 +28,6 @@ Struvio, **"Zero Third-Party Dependency" (Sıfır 3. Parti Bağımlılık)** ilk
 
 ---
 
-## Proje Yapısı
-
-```
-Struvio.Solution
-│
-├── Core                        # Projenin Kalbi (Bağımlılık Yok)
-│   ├── Struvio.Domain          # Entities, Enums, Constants (POCO)
-│   ├── Struvio.Application     # Interfaces, Services Logic, DTOs, Exceptions
-│
-├── Infrastructure              # Altyapı
-│   ├── Struvio.Persistence     # EF Core, DbContext, Migrations
-│   ├── Struvio.Infrastructure  # File, Email, Cache, Identity Services
-│
-├── UI                          # Sunum Katmanı
-│   ├── Struvio.API             # Backend API (Thin Controllers)
-│   ├── Struvio.Web.Common      # MVC ve API ortak servisleri
-│   ├── Struvio.Web.Mvc         # Server-Side Blazor Host (Admin Panel)
-│   └── Clients                 # Frontend Host Uygulamaları
-│       ├── Struvio.UI.RCL      # ⭐️ TÜM UI KODU (Admin Pages, Components)
-│       ├── Struvio.UI.Wasm     # Blazor WebAssembly Host
-│       └── Struvio.UI.Maui     # .NET MAUI (Mobile/Desktop) Host
-│
-├── Shared                      # Ortak Kaynaklar
-│   ├── Struvio.Shared          # DTOs, Localization (.resx), Wrappers
-│
-├── Tools                       # Araçlar
-│   └── Struvio.Setup           # Tek tıkla kurulum (Dev Only)
-│
-└── Tests                       # Testler
-    └── Struvio.Application.UnitTests
-```
-
----
-
 ## Teknik Stratejiler
 
 ### Kimlik ve Veri Yönetimi
@@ -73,7 +39,6 @@ Struvio.Solution
   - Global Query Filter → veri izolasyonu
 - **Audit & History**
   - Application Level → `AuditableEntityInterceptor`
-  - DB Level → SQL Server **Temporal Tables**
 
 ---
 
@@ -128,10 +93,10 @@ Admin Panel 3 farklı şekilde host edilir:
 
 ### Performans ve Altyapı
 
-- **Cache:** .NET 9 HybridCache (Memory + Redis)
+- **Cache:** HybridCache (Memory + Redis)
 - **Loglama:** Serilog JSON loglama
-- **File Storage:** Local / S3 / MinIO seçilebilir yapı
-- **API Docs:** Swagger yerine **Scalar UI**
+- **File Storage:** Local / S3 / DB seçilebilir yapı
+- **API Docs:**Scalar UI**
 
 ---
 
