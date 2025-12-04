@@ -11,11 +11,26 @@ public static class DomainExtensions
     extension(string plainText)
     {
         /// <summary>
-        /// Düz metni AES ile şifreler.
+        /// Düz metni AES ile şifreler (Senkron).
+        /// EF Core Value Converters gibi senkron işlemler için kullanılır.
+        /// Uygulama katmanında EncryptAsync metodunu kullanın.
         /// </summary>
         /// <param name="plainText">Şifrelenecek düz metin</param>
         /// <returns>Şifrelenmiş metin (Base64)</returns>
         public string Encrypt()
+        {
+            // Async metodu senkron çağır (sadece EF Core için)
+            return plainText.EncryptAsync().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Düz metni AES ile asenkron olarak şifreler.
+        /// Tercih edilen metod - tüm uygulama katmanında bunu kullanın.
+        /// </summary>
+        /// <param name="plainText">Şifrelenecek düz metin</param>
+        /// <param name="cancellationToken">İptal belirteci</param>
+        /// <returns>Şifrelenmiş metin (Base64)</returns>
+        public async Task<string> EncryptAsync(CancellationToken cancellationToken = default)
         {
             // AES nesnesi oluştur
             using var aes = CreateAes();
@@ -29,16 +44,16 @@ public static class DomainExtensions
             // Şifrelenmiş veriyi yazmak için bir bellek akışı oluştur
             using var msEncrypt = new MemoryStream();
 
-            // IV'yi bellek akışına yaz
-            msEncrypt.Write(aes.IV, 0, aes.IV.Length);
+            // IV'yi bellek akışına asenkron yaz
+            await msEncrypt.WriteAsync(aes.IV.AsMemory(0, aes.IV.Length), cancellationToken);
 
             // Şifreleme akışı oluştur
-            using var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
+            await using var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
 
-            // Düz metni şifreleme akışına yaz
-            using (var swEncrypt = new StreamWriter(csEncrypt))
+            // Düz metni şifreleme akışına asenkron yaz
+            await using (var swEncrypt = new StreamWriter(csEncrypt, leaveOpen: false))
             {
-                swEncrypt.Write(plainText);
+                await swEncrypt.WriteAsync(plainText.AsMemory(), cancellationToken);
             }
 
             // Şifrelenmiş veriyi Base64 formatında döndür
@@ -49,11 +64,26 @@ public static class DomainExtensions
     extension(string encryptedText)
     {
         /// <summary>
-        /// Şifrelenmiş metni çözer.
+        /// Şifrelenmiş metni çözer (Senkron).
+        /// EF Core Value Converters gibi senkron işlemler için kullanılır.
+        /// Uygulama katmanında DecryptAsync metodunu kullanın.
         /// </summary>
         /// <param name="encryptedText">Şifrelenmiş metin (Base64)</param>
         /// <returns>Düz metin</returns>
         public string Decrypt()
+        {
+            // Async metodu senkron çağır (sadece EF Core için)
+            return encryptedText.DecryptAsync().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Şifrelenmiş metni asenkron olarak çözer.
+        /// Tercih edilen metod - tüm uygulama katmanında bunu kullanın.
+        /// </summary>
+        /// <param name="encryptedText">Şifrelenmiş metin (Base64)</param>
+        /// <param name="cancellationToken">İptal belirteci</param>
+        /// <returns>Düz metin</returns>
+        public async Task<string> DecryptAsync(CancellationToken cancellationToken = default)
         {
             // Şifrelenmiş metni bayt dizisine dönüştür
             byte[] cipherBytes = Convert.FromBase64String(encryptedText);
@@ -75,12 +105,12 @@ public static class DomainExtensions
             using var msDecrypt = new MemoryStream(cipherBytes, iv.Length, cipherBytes.Length - iv.Length);
 
             // Şifre çözme akışı oluştur
-            using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
+            await using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
 
-            // Şifrelenmiş metni düz metne dönüştür
+            // Şifrelenmiş metni düz metne asenkron dönüştür
             using var srDecrypt = new StreamReader(csDecrypt);
 
-            return srDecrypt.ReadToEnd();
+            return await srDecrypt.ReadToEndAsync(cancellationToken);
         }
     }
 
