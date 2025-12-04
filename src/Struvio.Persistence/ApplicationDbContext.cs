@@ -8,7 +8,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>(options)
 {
     // IIdentityContext'i cache'le (her GetService çağrısı maliyetli)
-    private IIdentityContext? _cachedIdentityContext;
+    private ICurrentUserContext? _currentUserContext;
 
     /// <summary>
     /// Mevcut oturumdaki kimlik doğrulanmış kullanıcıyı getirir.
@@ -20,8 +20,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public async Task<ApplicationUser> IdentityUserAsync(CancellationToken cancellationToken = default)
     {
         // IIdentityContext'i cache'ten al (GetService maliyetini önle)
-        _cachedIdentityContext ??= this.GetService<IIdentityContext>();
-        var userId = await _cachedIdentityContext.GetUserIdAsync(cancellationToken);
+        _currentUserContext ??= this.GetService<ICurrentUserContext>();
+        var userId = await _currentUserContext.GetUserIdAsync(cancellationToken);
         
         // AsNoTracking: Audit işlemlerinde kullanıcı tracking'e gerek yok (memory tasarrufu)
         // AsSplitQuery: 3 Include için tek JOIN yerine 4 ayrı query (daha hızlı, özellikle çok satır olunca)

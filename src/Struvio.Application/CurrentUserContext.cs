@@ -2,12 +2,12 @@
 
 namespace Struvio.Application;
 
-public class IdentityContext(
+public class CurrentUserContext(
     ApplicationDbContext dbContext,
     ICacheService cacheService,
     IPrincipal principal,
     IStruvioLogger logger
-    ) : IIdentityContext
+    ) : ICurrentUserContext
 {
     private readonly ClaimsPrincipal _principal = (ClaimsPrincipal)principal;
 

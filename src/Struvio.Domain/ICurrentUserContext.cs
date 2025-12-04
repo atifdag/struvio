@@ -3,7 +3,7 @@ namespace Struvio.Domain;
 /// <summary>
 /// Kimlik doğrulama bağlamı arayüzü. Oturum bilgilerini sağlar.
 /// </summary>
-public interface IIdentityContext
+public interface ICurrentUserContext
 {
     /// <summary>
     /// Oturumdaki kullanıcının kimlik numarasını getirir.
