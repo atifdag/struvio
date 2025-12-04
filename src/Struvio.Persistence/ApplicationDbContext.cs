@@ -7,17 +7,32 @@
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser, ApplicationRole, Guid, IdentityUserClaim<Guid>, UserOrganizationRoleLine,
     IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>(options)
 {
+    // IIdentityContext'i cache'le (her GetService çağrısı maliyetli)
+    private IIdentityContext? _cachedIdentityContext;
+
     /// <summary>
     /// Mevcut oturumdaki kimlik doğrulanmış kullanıcıyı getirir.
+    /// Performans optimizasyonu: AsNoTracking kullanılarak tracking overhead'i kaldırıldı.
     /// </summary>
     /// <param name="cancellationToken">İptal belirteci</param>
     /// <returns>Kimlik doğrulanmış kullanıcı</returns>
     /// <exception cref="IdentityNotFoundException">Kullanıcı bulunamazsa fırlatılır</exception>
     public async Task<ApplicationUser> IdentityUserAsync(CancellationToken cancellationToken = default)
     {
-        var identityContext = this.GetService<IIdentityContext>();
-        var userId = identityContext.GetUserId();
-        var user = await Set<ApplicationUser>().Include(x => x.Language).Include(x => x.Organization).Include(x => x.Person).FirstOrDefaultAsync(x => x.IsApproved && x.Id == userId, cancellationToken);
+        // IIdentityContext'i cache'ten al (GetService maliyetini önle)
+        _cachedIdentityContext ??= this.GetService<IIdentityContext>();
+        var userId = _cachedIdentityContext.GetUserId();
+        
+        // AsNoTracking: Audit işlemlerinde kullanıcı tracking'e gerek yok (memory tasarrufu)
+        // AsSplitQuery: 3 Include için tek JOIN yerine 4 ayrı query (daha hızlı, özellikle çok satır olunca)
+        var user = await Set<ApplicationUser>()
+            .AsNoTracking()
+            .AsSplitQuery()
+            .Include(x => x.Language)
+            .Include(x => x.Organization)
+            .Include(x => x.Person)
+            .FirstOrDefaultAsync(x => x.IsApproved && x.Id == userId, cancellationToken);
+        
         return user ?? throw new IdentityNotFoundException();
     }
 

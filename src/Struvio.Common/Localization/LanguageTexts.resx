@@ -121,4 +121,8 @@
     <value>Kimlik bilgileri bulunamadı.</value>
     <comment>Kimlik bilgileri bulunamadı.</comment>
   </data>
+    <data name="RecordNotFound" xml:space="preserve">
+    <value>Kayıt bulunamadı.</value>
+    <comment>Kayıt bulunamadı.</comment>
+  </data>
 </root>

@@ -68,5 +68,12 @@ namespace Struvio.Domain.Localization {
                 return ResourceManager.GetString("IdentityUserNotFound", resourceCulture);
             }
         }
+        public static string RecordNotFound
+        {
+            get
+            {
+                return ResourceManager.GetString("RecordNotFound", resourceCulture);
+            }
+        }
     }
 }
