@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace Struvio.Domain.Utils;
+﻿namespace Struvio.Domain.Utils;
 
 /// <summary>
 /// Domain katmanı için genişletme metodlarını içerir. Şifreleme ve şifre çözme işlemleri sağlar.

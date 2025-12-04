@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace Struvio.Domain.Entities;
+﻿namespace Struvio.Domain.Entities;
 
 /// <summary>
 /// Varlık geçmişi kaydı. Tüm varlık değişikliklerini izlemek için kullanılır.

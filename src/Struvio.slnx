@@ -6,4 +6,6 @@
   <Project Path="Struvio.Common/Struvio.Common.csproj" Id="26b7211f-961e-4b77-b157-3a831ee55c4b" />
   <Project Path="Struvio.Domain/Struvio.Domain.csproj" Id="70267165-82ef-4baa-b529-88e0a43fd400" />
   <Project Path="Struvio.Persistence/Struvio.Persistence.csproj" Id="a8be1107-86d6-45f1-b473-aaee17ab4726" />
+  <Project Path="Struvio.Setup/Struvio.Setup.csproj" Id="05fd95c7-9ebc-4227-b45d-b22755801f6f" />
+  <Project Path="Struvio.UI.Web.Api/Struvio.UI.Web.Api.csproj" Id="24aeba75-05c3-4fd9-b782-fa767deb580d" />
 </Solution>
