@@ -8,11 +8,11 @@ internal class UserSessionConfiguration : IEntityTypeConfiguration<UserSession>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.IpAddress)
-            .HasMaxLength(DomainConstants.Max256Lenght).IsRequired(false);
+            .HasMaxLength(PersistenceConstants.Max256Lenght).IsRequired(false);
 
 
         builder.Property(x => x.AgentInfo)
-            .HasMaxLength(DomainConstants.Max2000Lenght).IsRequired(false);
+            .HasMaxLength(PersistenceConstants.Max2000Lenght).IsRequired(false);
 
         builder.HasOne(o => o.Creator)
             .WithMany(m => m.CreatedUserSessions)

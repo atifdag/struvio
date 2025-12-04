@@ -15,8 +15,7 @@ internal class HistoryConverter<T> : JsonConverter<T>
     /// <returns>Dönüştürülmüş nesne.</returns>
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var result = JsonSerializer.Deserialize<T>(ref reader, PersistenceConstants.DefaultSerializerOptions) ?? throw new JsonException($"Deserialization returned null for type {typeof(T)}.");
-        return result;
+        return JsonSerializer.Deserialize<T>(ref reader, PersistenceConstants.DefaultSerializerOptions) ?? throw new JsonException($"Deserialization returned null for type {typeof(T)}.");
     }
 
     /// <summary>

@@ -8,18 +8,18 @@ internal class PermissionConfiguration : IEntityTypeConfiguration<Permission>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Code)
-            .HasMaxLength(DomainConstants.Max256Lenght).IsRequired(true);
+            .HasMaxLength(PersistenceConstants.Max256Lenght).IsRequired(true);
 
         builder.Property(x => x.ControllerName)
-            .HasMaxLength(DomainConstants.Max256Lenght)
+            .HasMaxLength(PersistenceConstants.Max256Lenght)
             .IsRequired(false);
 
         builder.Property(x => x.ActionName)
-            .HasMaxLength(DomainConstants.Max256Lenght)
+            .HasMaxLength(PersistenceConstants.Max256Lenght)
             .IsRequired(false);
 
         builder.Property(x => x.Path)
-            .HasMaxLength(DomainConstants.Max256Lenght)
+            .HasMaxLength(PersistenceConstants.Max256Lenght)
             .IsRequired(false);
 
         builder.HasOne(o => o.Creator)

@@ -15,13 +15,13 @@ internal static class PersistenceExtensions
         }
     }
 
-    public static readonly JsonSerializerOptions DefaultSerializerOptions = new()
+    internal static readonly JsonSerializerOptions DefaultSerializerOptions = new()
     {
         ReferenceHandler = ReferenceHandler.IgnoreCycles,
         WriteIndented = false
     };
 
-    public static readonly JsonSerializerOptions HistorySerializerOptions = new()
+    internal static readonly JsonSerializerOptions HistorySerializerOptions = new()
     {
         ReferenceHandler = ReferenceHandler.IgnoreCycles,
         WriteIndented = false,
@@ -30,9 +30,9 @@ internal static class PersistenceExtensions
         }
     };
 
-    public static ValueConverter<string, string> EncryptionValueConverter = new(v => v.Encrypt(), v => v.Decrypt());
+    internal static ValueConverter<string, string> EncryptionValueConverter = new(v => v.Encrypt(), v => v.Decrypt());
 
-    public static JsonDocument ToCreateHistoryAsJson(this object entity)
+    internal static JsonDocument ToCreateHistoryAsJson(this object entity)
     {
         return JsonSerializer.SerializeToDocument(entity, HistorySerializerOptions);
     }

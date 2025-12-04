@@ -7,8 +7,7 @@ internal class HistoryConverterFactory : JsonConverterFactory
 {
     public override bool CanConvert(Type typeToConvert)
     {
-        var isIEntity = typeToConvert.GetInterfaces().FirstOrDefault(x => x.Name == nameof(IEntity));
-        return isIEntity != null;
+        return typeToConvert.GetInterfaces().FirstOrDefault(x => x.Name == nameof(IEntity)) != null;
     }
 
     /// <summary>
@@ -19,12 +18,8 @@ internal class HistoryConverterFactory : JsonConverterFactory
     /// <returns>Oluşturulan JSON dönüştürücü.</returns>
     public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
-        var converterType = typeof(HistoryConverter<>).MakeGenericType(typeToConvert);
-
-        if (Activator.CreateInstance(converterType) is not JsonConverter converter)
-        {
-            throw new InvalidOperationException($"Unable to create converter for {typeToConvert}.");
-        }
-        return converter;
+        return Activator.CreateInstance(typeof(HistoryConverter<>).MakeGenericType(typeToConvert)) is not JsonConverter converter
+            ? throw new InvalidOperationException($"Unable to create converter for {typeToConvert}.")
+            : converter;
     }
 }

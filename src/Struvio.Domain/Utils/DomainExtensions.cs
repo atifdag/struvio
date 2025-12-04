@@ -1,8 +1,8 @@
-﻿using System.Security.Cryptography;
-using System.Text;
+﻿namespace Struvio.Domain.Utils;
 
-namespace Struvio.Domain;
-
+/// <summary>
+/// Domain katmanı için genişletme metodlarını içerir. Şifreleme ve şifre çözme işlemleri sağlar.
+/// </summary>
 public static class DomainExtensions
 {
     // Sabit bir AES Key (32 karakter olmalı)

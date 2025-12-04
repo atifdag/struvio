@@ -8,13 +8,13 @@ internal class LanguageConfiguration : IEntityTypeConfiguration<Language>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Code)
-            .HasMaxLength(DomainConstants.Max256Lenght).IsRequired(true);
+            .HasMaxLength(PersistenceConstants.Max256Lenght).IsRequired(true);
 
         builder.Property(x => x.ShortCode)
-           .HasMaxLength(DomainConstants.Max256Lenght);
+           .HasMaxLength(PersistenceConstants.Max256Lenght);
 
         builder.Property(x => x.Name)
-            .HasMaxLength(DomainConstants.Max256Lenght);
+            .HasMaxLength(PersistenceConstants.Max256Lenght);
 
         builder.HasIndex(x => x.Code).IsUnique(true);
 

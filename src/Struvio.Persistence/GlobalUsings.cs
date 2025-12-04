@@ -13,3 +13,4 @@ global using System.Text.Json;
 global using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 global using Struvio.Persistence.Utils;
 global using System.Text.Json.Serialization;
+global using Struvio.Domain.Utils;

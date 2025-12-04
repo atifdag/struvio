@@ -9,13 +9,13 @@ internal class PersonConfiguration : IEntityTypeConfiguration<Person>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.IdentityNumber)
-            .HasMaxLength(DomainConstants.Max256Lenght).IsRequired(true);
+            .HasMaxLength(PersistenceConstants.Max256Lenght).IsRequired(true);
 
         builder.Property(x => x.FirstName)
-            .HasMaxLength(DomainConstants.Max256Lenght);
+            .HasMaxLength(PersistenceConstants.Max256Lenght);
 
         builder.Property(x => x.LastName).IsRequired()
-            .HasMaxLength(DomainConstants.Max256Lenght);
+            .HasMaxLength(PersistenceConstants.Max256Lenght);
 
         builder.HasIndex(x => x.IdentityNumber).IsUnique(true);
 

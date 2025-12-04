@@ -1,12 +1,22 @@
 ﻿namespace Struvio.Domain.Enums;
+
+/// <summary>
+/// Oturum kapanış türlerini belirten numaralandırma.
+/// </summary>
 public enum LogoutType
 {
-    // Kullanıcı kendi oturum isteyerek sonlandırdığında
+    /// <summary>
+    /// Normal oturum kapama - Kullanıcı isteyerek oturumu sonlandırdığında
+    /// </summary>
     Normal = 1,
 
-    // Sistemsel bir neden ya da yönetici tarafından oturum sonlandıysa
+    /// <summary>
+    /// Zorla oturum kapama - Sistemsel bir neden ya da yönetici tarafından oturum sonlandırıldığında
+    /// </summary>
     Forced = 2,
 
-    // Oturum süresi dolduğunda
+    /// <summary>
+    /// Zaman aşımı - Oturum süresi dolduğunda
+    /// </summary>
     TimeOut = 3,
 }
