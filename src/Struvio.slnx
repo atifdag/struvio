@@ -2,4 +2,7 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
   </Folder>
+  <Project Path="Struvio.Common/Struvio.Common.csproj" Id="26b7211f-961e-4b77-b157-3a831ee55c4b" />
+  <Project Path="Struvio.Domain/Struvio.Domain.csproj" Id="70267165-82ef-4baa-b529-88e0a43fd400" />
+  <Project Path="Struvio.Persistence/Struvio.Persistence.csproj" Id="a8be1107-86d6-45f1-b473-aaee17ab4726" />
 </Solution>

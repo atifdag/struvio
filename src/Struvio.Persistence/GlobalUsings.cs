@@ -1,0 +1,15 @@
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore;
+global using System.Data;
+global using System.Reflection;
+global using Struvio.Domain.Entities;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Microsoft.EntityFrameworkCore.Infrastructure;
+global using Struvio.Domain;
+global using Struvio.Domain.Exceptions;
+global using Microsoft.EntityFrameworkCore.ChangeTracking;
+global using System.Text.Json;
+global using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+global using Struvio.Persistence.Utils;
+global using System.Text.Json.Serialization;

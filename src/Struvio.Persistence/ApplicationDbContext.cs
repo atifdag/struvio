@@ -1,0 +1,173 @@
+﻿namespace Struvio.Persistence;
+
+
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser, ApplicationRole, Guid, IdentityUserClaim<Guid>, UserOrganizationRoleLine,
+    IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>(options)
+{
+
+    public async Task<ApplicationUser> IdentityUserAsync(CancellationToken cancellationToken = default)
+    {
+        var identityContext = this.GetService<IIdentityContext>();
+        var userId = identityContext.GetUserId();
+        var user = await Set<ApplicationUser>().Include(x => x.Language).Include(x => x.Organization).Include(x => x.Person).FirstOrDefaultAsync(x => x.IsApproved && x.Id == userId, cancellationToken);
+        return user ?? throw new IdentityNotFoundException();
+    }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        // Değişiklikleri veritabanına göndermeden önce yakalıyoruz.
+        await OnBeforeSaveChanges(cancellationToken);
+
+        // Standart kaydetme işlemini yürütüyoruz.
+        return await base.SaveChangesAsync(cancellationToken);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Entity ve veri tabanı tablo konfigürasyonu otomatik olarak burada yapılıyor
+        var configurations = Assembly.GetExecutingAssembly().GetTypes().Where(type => type is { IsClass: true, IsAbstract: false, ContainsGenericParameters: false } && type.GetInterfaces().Any(x => x.IsConstructedGenericType && x.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>))).ToList();
+
+        foreach (var configuration in configurations)
+        {
+            // IEntityTypeConfiguration arayüzünden türemiş konfigürasyon uygulanıyor
+            modelBuilder.ApplyConfiguration(Activator.CreateInstance(configuration as dynamic));
+        }
+    }
+
+    // Audit işlemini yöneten ana metod.
+    private async Task OnBeforeSaveChanges(CancellationToken cancellationToken = default)
+    {
+        ChangeTracker.DetectChanges();
+
+        foreach (var entry in ChangeTracker.Entries().Where(t => t.State == EntityState.Added).Select(t => t.Entity))
+        {
+            if (entry is not IHistoryEntity historyEntity)
+            {
+                if (entry is IEntity iEntity)
+                {
+                    iEntity.Id = Guid.CreateVersion7();
+                }
+            }
+     
+            else
+            {
+                var identityUser = await IdentityUserAsync(cancellationToken);
+
+                historyEntity.CreationTime = DateTime.UtcNow;
+
+                historyEntity.LastModificationTime = DateTime.UtcNow;
+
+                historyEntity.Creator = identityUser;
+
+                historyEntity.LastModifier = identityUser;
+
+                historyEntity.Version = 1;
+
+                if (entry is IOrganizationalEntity organizationalEntity)
+                {
+                    organizationalEntity.Organization = identityUser.Organization;
+                }
+            }
+
+
+        }
+
+        var modifiedEntities = ChangeTracker.Entries().Where(p => p.State == EntityState.Modified).ToList();
+
+        foreach (var entity in modifiedEntities.Select(e => e.Entity))
+        {
+
+            // Değişen Alanları Aldığımız Yer
+            var changedData = modifiedEntities.First(x => x.Entity == entity).EntityChangeDetection();
+            //Değişen alan olmasa bile toplu kayıtta modifed true geldiği için böyle bir önlem alındı. 
+            if (changedData is null || entity is not IHistoryEntity track) continue;
+            {
+                // İşlemi yapan kullanıcı
+                var identityUser = await IdentityUserAsync(cancellationToken);
+
+                // Geçmiş tablosuna kayıt bilgileri değişen entity'den alınıyor
+                History history = new()
+                {
+                    Id = Guid.CreateVersion7(),
+
+                    // entity'nin satır Id'si
+                    RowId = track.Id,
+
+                    // entity'nin adı
+                    EntityName = entity.GetType().Name,
+
+                    // satır sürüm numarası
+                    Version = track.Version,
+
+                    // entity verileri JsonDocument'e çevriliyor
+                    Data = entity.ToCreateHistoryAsJson(),
+
+                    // entity'nin değişen verileri JsonDocument'e çevriliyor
+                    ChangedData = modifiedEntities.First(x => x.Entity == entity).EntityChangeDetection(),
+
+                    // İşlemi yapan kullanıcı
+                    UserId = identityUser?.Id ?? (entity.GetType().Name == nameof(ApplicationUser) ? track.Id : Guid.Empty),
+
+                    // işlem zamanı
+                    TransactionTime = DateTime.UtcNow
+                };
+
+                // Geçmiş tablosuna kayıt giriliyor
+                Add(history);
+
+
+
+                // işlem zamanı
+                track.LastModificationTime = DateTime.UtcNow;
+
+                // İşlemi yapan kullanıcı
+                track.LastModifier = identityUser!;
+
+                var version = track.Version;
+
+                // değişen entity'nin satır sürüm numarası 1 artırılıyor
+                track.Version = version + 1;
+            }
+        }
+
+        // Silme işlemleri
+        foreach (var entity in ChangeTracker.Entries().Where(t => t.State == EntityState.Deleted).Select(t => t.Entity))
+        {
+            if (entity is not IHistoryEntity track) continue;
+
+            var identityUser = await IdentityUserAsync(cancellationToken);
+
+            // Geçmiş tablosuna kayıt bilgileri silinecek olan entity'den alınıyor
+            History history = new()
+            {
+                Id = Guid.CreateVersion7(),
+
+                // entity'nin satır Id'si
+                RowId = track.Id,
+
+                // Silindi mi?
+                IsDeleted = true,
+
+                // entity'nin adı
+                EntityName = entity.GetType().Name,
+
+                // satır sürüm numarası
+                Version = track.Version,
+
+                // İşlemi yapan kullanıcı
+                UserId = identityUser?.Id ?? (entity.GetType().Name == nameof(ApplicationUser) ? track.Id : Guid.Empty),
+
+                // işlem zamanı
+                TransactionTime = DateTime.UtcNow,
+
+                // silinecek entity verileri JsonDocument'e çevriliyor
+                Data = entity.ToCreateHistoryAsJson()
+            };
+
+            // Geçmiş tablosuna kayıt giriliyor
+            Add(history);
+        }
+    }
+}
