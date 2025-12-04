@@ -21,7 +21,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     {
         // IIdentityContext'i cache'ten al (GetService maliyetini önle)
         _cachedIdentityContext ??= this.GetService<IIdentityContext>();
-        var userId = _cachedIdentityContext.GetUserId();
+        var userId = await _cachedIdentityContext.GetUserIdAsync(cancellationToken);
         
         // AsNoTracking: Audit işlemlerinde kullanıcı tracking'e gerek yok (memory tasarrufu)
         // AsSplitQuery: 3 Include için tek JOIN yerine 4 ayrı query (daha hızlı, özellikle çok satır olunca)
@@ -43,35 +43,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     /// <returns>Etkilenen kayıt sayısı</returns>
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        // Değişiklikleri veritabanına göndermeden önce yakalıyoruz.
-        await OnBeforeSaveChanges(cancellationToken);
-
-        // Standart kaydetme işlemini yürütüyoruz.
-        return await base.SaveChangesAsync(cancellationToken);
-    }
-
-    /// <summary>
-    /// Model oluşturma sırasında varlık yapılandırmalarını uygular.
-    /// Assembly'deki tüm IEntityTypeConfiguration implementasyonlarını otomatik olarak bulur ve uygular.
-    /// Performans optimizasyonu: Reflection overhead'i minimize eder.
-    /// </summary>
-    /// <param name="modelBuilder">Model oluşturucu</param>
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-
-        // EF Core'un optimize edilmiş metodunu kullan
-        // Bu metod internal olarak cache kullanır ve reflection overhead'i minimize eder
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    }
-
-    /// <summary>
-    /// Kaydetme işleminden önce çağrılan metod. 
-    /// Varlık değişikliklerini izler, audit bilgilerini günceller ve geçmiş kayıtları oluşturur.
-    /// </summary>
-    /// <param name="cancellationToken">İptal belirteci</param>
-    private async Task OnBeforeSaveChanges(CancellationToken cancellationToken = default)
-    {
+        // Değişiklikleri veritabanına göndermeden önce yakalıyoruz. Varlık değişikliklerini izler, audit bilgilerini günceller ve geçmiş kayıtları oluşturur.
         ChangeTracker.DetectChanges();
 
         // Kullanıcıyı bir kez çek ve tüm işlemlerde (Add/Modify/Delete) cache'le (N+1 query problemi önlenir)
@@ -86,7 +58,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                     iEntity.Id = Guid.CreateVersion7();
                 }
             }
-     
+
             else
             {
                 // İlk seferinde çek, sonra cache'ten kullan
@@ -118,7 +90,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         {
             //Değişen alan olmasa bile toplu kayıtta modifed true geldiği için böyle bir önlem alındı. 
             if (changedData is null || entity is not IHistoryEntity track) continue;
-            
+
             // İşlemi yapan kullanıcıyı ilk seferinde çek, sonra cache'ten kullan
             identityUser ??= await IdentityUserAsync(cancellationToken);
 
@@ -202,5 +174,23 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             // Geçmiş tablosuna kayıt giriliyor
             Add(history);
         }
+
+        // Standart kaydetme işlemini yürütüyoruz.
+        return await base.SaveChangesAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// Model oluşturma sırasında varlık yapılandırmalarını uygular.
+    /// Assembly'deki tüm IEntityTypeConfiguration implementasyonlarını otomatik olarak bulur ve uygular.
+    /// Performans optimizasyonu: Reflection overhead'i minimize eder.
+    /// </summary>
+    /// <param name="modelBuilder">Model oluşturucu</param>
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // EF Core'un optimize edilmiş metodunu kullan
+        // Bu metod internal olarak cache kullanır ve reflection overhead'i minimize eder
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

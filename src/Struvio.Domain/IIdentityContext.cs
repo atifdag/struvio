@@ -9,17 +9,17 @@ public interface IIdentityContext
     /// Oturumdaki kullanıcının kimlik numarasını getirir.
     /// </summary>
     /// <returns>Kullanıcı kimlik numarası</returns>
-    Guid GetUserId();
+    Task<Guid> GetUserIdAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Oturumdaki kullanıcının dil kimlik numarasını getirir.
     /// </summary>
     /// <returns>Dil kimlik numarası</returns>
-    Guid GetLanguageId();
+    Task<Guid> GetLanguageIdAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Oturumdaki kullanıcının organizasyon kimlik numarasını getirir.
     /// </summary>
     /// <returns>Organizasyon kimlik numarası</returns>
-    Guid GetOrganizationId();
+    Task<Guid> GetOrganizationIdAsync(CancellationToken cancellationToken = default);
 }

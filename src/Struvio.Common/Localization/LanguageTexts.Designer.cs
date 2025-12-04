@@ -68,5 +68,14 @@ namespace Struvio.Common.Localization {
                 return ResourceManager.GetString("IdentityUserNotFound", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Kayıt bulunamadı. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string RecordNotFound {
+            get {
+                return ResourceManager.GetString("RecordNotFound", resourceCulture);
+            }
+        }
     }
 }
