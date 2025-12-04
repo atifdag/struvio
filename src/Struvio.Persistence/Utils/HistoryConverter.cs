@@ -6,6 +6,30 @@ namespace Struvio.Persistence.Utils;
 /// <typeparam name="T">Dönüştürülecek nesne türü.</typeparam>
 internal class HistoryConverter<T> : JsonConverter<T>
 {
+    // Özellikleri ve kategorilerini önbelleğe al (Reflection maliyetini düşürür)
+    private static readonly PropertyMetadata[] _properties = [.. typeof(T)
+        .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+        .Where(p => p.CanRead && p.GetIndexParameters().Length == 0)
+        .Select(p => new PropertyMetadata(p, Classify(p.PropertyType)))
+        .Where(p => p.Category != PropertyCategory.Collection)];
+
+    private enum PropertyCategory { Primitive, Collection, Entity }
+    private record PropertyMetadata(PropertyInfo Info, PropertyCategory Category);
+
+    private static PropertyCategory Classify(Type type)
+    {
+        if (type == typeof(string) || type == typeof(byte[]))
+            return PropertyCategory.Primitive;
+
+        if (type.IsValueType)
+            return PropertyCategory.Primitive;
+        
+        if (typeof(System.Collections.IEnumerable).IsAssignableFrom(type))
+            return PropertyCategory.Collection;
+
+        return PropertyCategory.Entity;
+    }
+
     /// <summary>
     /// JSON verisini belirtilen türde bir nesneye dönüştürür.
     /// </summary>
@@ -27,21 +51,37 @@ internal class HistoryConverter<T> : JsonConverter<T>
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
-        using var document = JsonDocument.Parse(JsonSerializer.Serialize(value, PersistenceConstants.DefaultSerializerOptions));
-        foreach (var property in document.RootElement.EnumerateObject().Where(property => property.Value.ValueKind != JsonValueKind.Array))
+        
+        foreach (var meta in _properties)
         {
-            if (property.Value.ValueKind != JsonValueKind.Object)
+            var propVal = meta.Info.GetValue(value);
+            
+            if (propVal is null)
             {
-                property.WriteTo(writer);
+                writer.WriteNull(meta.Info.Name);
+                continue;
             }
-            else
+
+            if (meta.Category == PropertyCategory.Entity)
             {
-                writer.WriteStartObject(property.Name);
-                writer.WritePropertyName("Id");
-                writer.WriteStringValue(property.Value.GetProperty("Id").ToString());
-                writer.WriteEndObject();
+                // İlişkili entity ise sadece Id'sini yaz
+                var idProp = propVal.GetType().GetProperty("Id");
+                if (idProp != null)
+                {
+                    var idVal = idProp.GetValue(propVal);
+                    writer.WriteStartObject(meta.Info.Name);
+                    writer.WritePropertyName("Id");
+                    JsonSerializer.Serialize(writer, idVal, options);
+                    writer.WriteEndObject();
+                }
+            }
+            else // Primitive
+            {
+                writer.WritePropertyName(meta.Info.Name);
+                JsonSerializer.Serialize(writer, propVal, options);
             }
         }
+
         writer.WriteEndObject();
     }
 }

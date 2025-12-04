@@ -6,21 +6,42 @@
 /// </summary>
 internal static class PersistenceExtensions
 {
-    extension(EntityEntry change)
+    /// <summary>
+    /// Varlıktaki değişiklikleri tespit eder ve JSON formatında döndürür.
+    /// </summary>
+    /// <param name="change">Değişiklik kaydı</param>
+    /// <returns>Değişiklik varsa JSON dökümanı, yoksa null</returns>
+    internal static JsonDocument? EntityChangeDetection(this EntityEntry change)
     {
-        /// <summary>
-        /// Varlıktaki değişiklikleri tespit eder ve JSON formatında döndürür.
-        /// </summary>
-        /// <returns>Değişiklik varsa JSON dökümanı, yoksa null</returns>
-        internal JsonDocument? EntityChangeDetection()
+        using var stream = new MemoryStream();
+        using var writer = new Utf8JsonWriter(stream);
+
+        writer.WriteStartArray();
+        bool hasChanges = false;
+
+        foreach (var prop in change.OriginalValues.Properties)
         {
-            IEnumerable<EntityChangeLog> changeLogList = from p in change.OriginalValues.Properties
-                                                         let originalValue = change.OriginalValues[p.Name] is not null ? change.OriginalValues[p.Name]!.ToString() : null
-                                                         let currentValue = change.CurrentValues[p.Name] is not null ? change.CurrentValues[p.Name]!.ToString() : null
-                                                         where originalValue != currentValue
-                                                         select new EntityChangeLog(p.Name, originalValue, currentValue);
-            return changeLogList.Any() ? JsonSerializer.SerializeToDocument(changeLogList) : null;
+            var originalValue = change.OriginalValues[prop.Name]?.ToString();
+            var currentValue = change.CurrentValues[prop.Name]?.ToString();
+
+            if (originalValue != currentValue)
+            {
+                hasChanges = true;
+                writer.WriteStartObject();
+                writer.WriteString("PropertyName", prop.Name);
+                writer.WriteString("OldValue", originalValue);
+                writer.WriteString("NewValue", currentValue);
+                writer.WriteEndObject();
+            }
         }
+
+        writer.WriteEndArray();
+        writer.Flush();
+
+        if (!hasChanges) return null;
+
+        stream.Position = 0;
+        return JsonDocument.Parse(stream);
     }
 
     /// <summary>
