@@ -1,154 +1,54 @@
 namespace Struvio.Common;
 
 /// <summary>
-/// Redis önbellekleme işlemlerini yapan sınıf
+/// Modern hybrid cache servis arayüzü (.NET 9+ HybridCache tabanlı).
+/// L1 (in-memory) + L2 (distributed Redis) katmanlı önbellekleme.
+/// Tüm metodlar async-only, strongly-typed ve cancellation-aware.
 /// </summary>
 public interface ICacheService
 {
     /// <summary>
-    /// Önbelleği kontrol eden metod
-    /// </summary>
-    bool CanConnect();
-
-
-    /// <summary>
-    /// Önbelleği kontrol eden metod
+    /// Önbellek bağlantısını kontrol eder (L2 distributed cache).
     /// </summary>
     Task<bool> CanConnectAsync(CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// Önbelleğe değer yazar (L1 + L2).
+    /// </summary>
+    /// <param name="key">Cache anahtarı</param>
+    /// <param name="value">Cache'lenecek değer</param>
+    /// <param name="expiration">Opsiyonel expiration süresi (null ise default settings kullanılır)</param>
+    Task SetAsync<T>(string key, T value, TimeSpan? expiration = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Önbelleğe ekleme yapan metod
+    /// Önbellekten değer okur. Bulunamazsa null döner.
+    /// L1 (memory) -> L2 (redis) sırasıyla kontrol edilir.
     /// </summary>
-    /// <param name="key">anahtar</param>
-    /// <param name="value">değer</param>
-    void Set(string key, object value);
+    Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Önbelleğe ekleme yapan asenkron metod 
+    /// Cache-aside pattern: Önbellekte yoksa factory ile oluşturur, yazar ve döner.
+    /// Stampede protection ile aynı key için paralel factory çağrıları önlenir.
     /// </summary>
-    /// <param name="key">anahtar</param>
-    /// <param name="value">değer</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    Task SetAsync(string key, object value, CancellationToken cancellationToken = default);
-
-
-    Task SetAsync<T>(string key, Func<Task<T>> valueFunc, CancellationToken cancellationToken = default);
+    /// <param name="key">Cache anahtarı</param>
+    /// <param name="factory">Değer üreteci (async)</param>
+    /// <param name="expiration">Opsiyonel expiration süresi</param>
+    /// <param name="tags">Cache invalidation için tag'ler</param>
+    Task<T> GetOrSetAsync<T>(string key, Func<CancellationToken, Task<T>> factory, TimeSpan? expiration = null, string[]? tags = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Anahtar önbellekte mevcut mu?
+    /// Önbellekten anahtarı siler (L1 + L2).
     /// </summary>
-    /// <param name="key">anahtar</param>
-    /// <returns></returns>
-    bool Any(string key);
-
-    /// <summary>
-    /// Anahtar önbellekte mevcut mu?
-    /// </summary>
-    /// <param name="key">anahtar</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    Task<bool> AnyAsync(string key, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// önbellekteki değeri döndüren metod
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="key">anahtar</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    T Get<T>(string key);
-
-    /// <summary>
-    /// önbellekteki değeri döndüren asenkron metod
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="key">anahtar</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    Task<T> GetAsync<T>(string key, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// önbellekteki değeri yoksa kaydedip döndüren metod
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="key">anahtar</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    T Get<T>(string key, Func<T> func);
-
-    /// <summary>
-    /// önbellekteki değeri yoksa kaydedip döndüren asenkron metod
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="key">anahtar</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    Task<T> GetAsync<T>(string key, Func<T> func, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// önbellekteki değeri yoksa kaydedip döndüren asenkron metod
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="key">anahtar</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    Task<T> GetAsync<T>(string key, Func<Task<T>> func, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// önbellekteki değeri silen metod
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="key">anahtar</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    void Remove(string key);
-
-    /// <summary>
-    /// önbellekteki değeri silen metod
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="key">anahtar</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
     Task RemoveAsync(string key, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// aranan kelimeyi içeren anahtarlara ait verileri silen metod
+    /// Birden fazla anahtarı toplu olarak siler.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="key">anahtar</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    Task ClearSearchByTermeAsync(string term, CancellationToken cancellationToken = default);
+    Task RemoveManyAsync(IEnumerable<string> keys, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// önek ile başlayan anahtarlara ait verileri silen metod
+    /// Tag'e göre cache'leri invalidate eder.
+    /// Örnek: RemoveByTagAsync("user:123") tüm "user:123" tag'li cache'leri temizler.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="key">anahtar</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    Task ClearStartsWithPrefixAsync(string prefix, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Önbelleğe kaydedilen anahtarları dönen metod
-    /// </summary>
-    /// <returns></returns>
-    string[] GetAllKeys();
-
-    /// <summary>
-    /// Önbelleğe kaydedilen anahtarları dönen metod
-    /// </summary>
-    /// <returns></returns>
-    Task<string[]> GetAllKeysAsync(CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Önek ile başlayan anahtar önbellekte mevcut mu?
-    /// </summary>
-    /// <param name="key">anahtar</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    Task<bool> AnyAWithPrefixAsync(string prefix, string value, CancellationToken cancellationToken = default);
+    Task RemoveByTagAsync(string tag, CancellationToken cancellationToken = default);
 }

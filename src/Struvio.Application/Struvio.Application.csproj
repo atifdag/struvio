@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Struvio.Common\Struvio.Common.csproj" />
+    <ProjectReference Include="..\Struvio.Domain\Struvio.Domain.csproj" />
     <ProjectReference Include="..\Struvio.Persistence\Struvio.Persistence.csproj" />
   </ItemGroup>
 
