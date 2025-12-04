@@ -1,6 +1,15 @@
 namespace Struvio.Persistence.Configurations;
+
+/// <summary>
+/// UserOrganizationRoleLine varlığı için Entity Framework Core yapılandırması.
+/// Kullanıcı-Organizasyon-Rol ilişki tablosu yapısı ve ilişkiler burada tanımlanır.
+/// </summary>
 internal class UserOrganizationRoleLineConfiguration : IEntityTypeConfiguration<UserOrganizationRoleLine>
 {
+    /// <summary>
+    /// UserOrganizationRoleLine varlığı için veritabanı yapılandırmasını uygular.
+    /// </summary>
+    /// <param name="builder">Varlık yapılandırma oluşturucu</param>
     public void Configure(EntityTypeBuilder<UserOrganizationRoleLine> builder)
     {
         builder.HasKey(p => p.Id);

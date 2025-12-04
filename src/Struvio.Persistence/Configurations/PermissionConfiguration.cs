@@ -1,6 +1,15 @@
 namespace Struvio.Persistence.Configurations;
+
+/// <summary>
+/// Permission varlığı için Entity Framework Core yapılandırması.
+/// Yetki tablosu yapısı, ilişkiler ve indeksler burada tanımlanır.
+/// </summary>
 internal class PermissionConfiguration : IEntityTypeConfiguration<Permission>
 {
+    /// <summary>
+    /// Permission varlığı için veritabanı yapılandırmasını uygular.
+    /// </summary>
+    /// <param name="builder">Varlık yapılandırma oluşturucu</param>
     public void Configure(EntityTypeBuilder<Permission> builder)
     {
         builder.ToTable("Permissions");

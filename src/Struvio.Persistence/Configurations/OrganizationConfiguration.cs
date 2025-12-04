@@ -1,6 +1,15 @@
 namespace Struvio.Persistence.Configurations;
+
+/// <summary>
+/// Organization varlığı için Entity Framework Core yapılandırması.
+/// Organizasyon tablosu yapısı, alanlar ve indeksler burada tanımlanır.
+/// </summary>
 internal class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
 {
+    /// <summary>
+    /// Organization varlığı için veritabanı yapılandırmasını uygular.
+    /// </summary>
+    /// <param name="builder">Varlık yapılandırma oluşturucu</param>
     public void Configure(EntityTypeBuilder<Organization> builder)
     {
 

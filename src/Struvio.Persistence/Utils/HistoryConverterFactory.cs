@@ -1,10 +1,16 @@
 namespace Struvio.Persistence.Utils;
 
 /// <summary>
-/// HistoryConverterFactory, IEntity arayüzünü uygulayan nesneler için JSON dönüştürücüleri oluşturan bir fabrika sınıfıdır.
+/// IEntity arayüzünü uygulayan nesneler için JSON dönüştürücüleri oluşturan fabrika sınıfı.
+/// Geçmiş kayıtları oluştururken varlıkları JSON'a dönüştürmek için kullanılır.
 /// </summary>
 internal class HistoryConverterFactory : JsonConverterFactory
 {
+    /// <summary>
+    /// Belirtilen türün dönüştürülebilir olup olmadığını kontrol eder.
+    /// </summary>
+    /// <param name="typeToConvert">Kontrol edilecek tür</param>
+    /// <returns>Tür IEntity arayüzünü uyguluyorsa true, aksi halde false</returns>
     public override bool CanConvert(Type typeToConvert)
     {
         return typeToConvert.GetInterfaces().FirstOrDefault(x => x.Name == nameof(IEntity)) != null;

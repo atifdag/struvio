@@ -1,3 +1,8 @@
+// <summary>
+// Persistence katmanı için global using direktifleri.
+// Bu dosya, veri erişim katmanında kullanılacak namespace'leri tanımlar.
+// </summary>
+
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore;

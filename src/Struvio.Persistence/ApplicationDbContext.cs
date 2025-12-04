@@ -1,10 +1,18 @@
 ﻿namespace Struvio.Persistence;
 
-
+/// <summary>
+/// Uygulama veritabanı bağlamı. Entity Framework Core DbContext sınıfından türetilir.
+/// Varlık yapılandırmaları ve değişiklik takibi (audit) işlemlerini yönetir.
+/// </summary>
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser, ApplicationRole, Guid, IdentityUserClaim<Guid>, UserOrganizationRoleLine,
     IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>(options)
 {
-
+    /// <summary>
+    /// Mevcut oturumdaki kimlik doğrulanmış kullanıcıyı getirir.
+    /// </summary>
+    /// <param name="cancellationToken">İptal belirteci</param>
+    /// <returns>Kimlik doğrulanmış kullanıcı</returns>
+    /// <exception cref="IdentityNotFoundException">Kullanıcı bulunamazsa fırlatılır</exception>
     public async Task<ApplicationUser> IdentityUserAsync(CancellationToken cancellationToken = default)
     {
         var identityContext = this.GetService<IIdentityContext>();
@@ -13,6 +21,11 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         return user ?? throw new IdentityNotFoundException();
     }
 
+    /// <summary>
+    /// Değişiklikleri veritabanına kaydeder. Kayıt öncesi audit işlemlerini otomatik olarak gerçekleştirir.
+    /// </summary>
+    /// <param name="cancellationToken">İptal belirteci</param>
+    /// <returns>Etkilenen kayıt sayısı</returns>
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         // Değişiklikleri veritabanına göndermeden önce yakalıyoruz.
@@ -22,6 +35,11 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         return await base.SaveChangesAsync(cancellationToken);
     }
 
+    /// <summary>
+    /// Model oluşturma sırasında varlık yapılandırmalarını uygular.
+    /// Assembly'deki tüm IEntityTypeConfiguration implementasyonlarını otomatik olarak bulur ve uygular.
+    /// </summary>
+    /// <param name="modelBuilder">Model oluşturucu</param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -36,7 +54,11 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         }
     }
 
-    // Audit işlemini yöneten ana metod.
+    /// <summary>
+    /// Kaydetme işleminden önce çağrılan metod. 
+    /// Varlık değişikliklerini izler, audit bilgilerini günceller ve geçmiş kayıtları oluşturur.
+    /// </summary>
+    /// <param name="cancellationToken">İptal belirteci</param>
     private async Task OnBeforeSaveChanges(CancellationToken cancellationToken = default)
     {
         ChangeTracker.DetectChanges();

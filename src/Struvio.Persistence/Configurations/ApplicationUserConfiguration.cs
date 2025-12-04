@@ -1,6 +1,15 @@
 namespace Struvio.Persistence.Configurations;
+
+/// <summary>
+/// ApplicationUser varlığı için Entity Framework Core yapılandırması.
+/// Kullanıcı tablosu yapısı, ilişkiler ve indeksler burada tanımlanır.
+/// </summary>
 internal class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
 {
+    /// <summary>
+    /// ApplicationUser varlığı için veritabanı yapılandırmasını uygular.
+    /// </summary>
+    /// <param name="builder">Varlık yapılandırma oluşturucu</param>
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
         builder.HasKey(x => x.Id);

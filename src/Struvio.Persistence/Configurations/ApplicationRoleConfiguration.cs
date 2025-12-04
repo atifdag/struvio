@@ -1,6 +1,15 @@
 namespace Struvio.Persistence.Configurations;
+
+/// <summary>
+/// ApplicationRole varlığı için Entity Framework Core yapılandırması.
+/// Tablo adı, alanlar, ilişkiler ve indeksler burada tanımlanır.
+/// </summary>
 internal class ApplicationRoleConfiguration : IEntityTypeConfiguration<ApplicationRole>
 {
+    /// <summary>
+    /// ApplicationRole varlığı için veritabanı yapılandırmasını uygular.
+    /// </summary>
+    /// <param name="builder">Varlık yapılandırma oluşturucu</param>
     public void Configure(EntityTypeBuilder<ApplicationRole> builder)
     {
         builder.HasKey(x => x.Id);
