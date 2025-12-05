@@ -121,4 +121,16 @@
     <value>Kimlik bilgileri bulunamadı.</value>
     <comment>Kimlik bilgileri bulunamadı.</comment>
   </data>
+  <data name="InvalidUsernameOrPassword" xml:space="preserve">
+    <value>Geçersiz kullanıcı adı veya şifre.</value>
+    <comment>Geçersiz kullanıcı adı veya şifre.</comment>
+  </data>
+  <data name="UserNotApproved" xml:space="preserve">
+    <value>Kullanıcı hesabı onaylanmamış.</value>
+    <comment>Kullanıcı hesabı onaylanmamış.</comment>
+  </data>
+  <data name="RecordNotFound" xml:space="preserve">
+    <value>Kayıt bulunamadı.</value>
+    <comment>Kayıt bulunamadı.</comment>
+  </data>
 </root>

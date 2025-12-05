@@ -68,6 +68,25 @@ namespace Struvio.Domain.Localization {
                 return ResourceManager.GetString("IdentityUserNotFound", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Geçersiz kullanıcı adı veya şifre. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string InvalidUsernameOrPassword {
+            get {
+                return ResourceManager.GetString("InvalidUsernameOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Kullanıcı hesabı onaylanmamış. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string UserNotApproved {
+            get {
+                return ResourceManager.GetString("UserNotApproved", resourceCulture);
+            }
+        }
+        
         public static string RecordNotFound
         {
             get
