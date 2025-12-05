@@ -1,4 +1,4 @@
-namespace Struvio.Common.Models.AuthModels;
+namespace Struvio.Common.Models;
 
 /// <summary>
 /// Login işlemi sonucunda dönen response modeli.

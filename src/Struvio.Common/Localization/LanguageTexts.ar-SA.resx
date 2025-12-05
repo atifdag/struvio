@@ -117,14 +117,89 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActionName" xml:space="preserve">
+    <value>اسم الإجراء</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>الكل</value>
+  </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>مفتاح API</value>
+  </data>
+  <data name="ApiPassword" xml:space="preserve">
+    <value>كلمة مرور API</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>موافقة</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>تمت الموافقة</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>الرمز</value>
+  </data>
+  <data name="CodeLanguageSpecific" xml:space="preserve">
+    <value>الكود (لغة محددة)</value>
+  </data>
+  <data name="ControllerName" xml:space="preserve">
+    <value>اسم المتحكم</value>
+  </data>
+  <data name="CreationTime" xml:space="preserve">
+    <value>وقت الإنشاء</value>
+  </data>
+  <data name="Creator" xml:space="preserve">
+    <value>المنشئ</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>تاريخ الانتهاء</value>
+  </data>
   <data name="FieldIsEmpty" xml:space="preserve">
     <value>لا يمكن ترك حقل {0} فارغًا!</value>
+  </data>
+  <data name="Firstname" xml:space="preserve">
+    <value>الاسم الأول</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>المعرف</value>
+  </data>
+  <data name="IdentityNumber" xml:space="preserve">
+    <value>رقم الهوية</value>
   </data>
   <data name="IdentityUserNotFound" xml:space="preserve">
     <value>لم يتم العثور على معلومات التعريف.</value>
   </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>عنوان البريد الإلكتروني غير صالح!</value>
+  </data>
   <data name="InvalidPassword" xml:space="preserve">
     <value>كلمة المرور ليست معقدة بما فيه الكفاية!</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>لغة</value>
+  </data>
+  <data name="LastModificationTime" xml:space="preserve">
+    <value>وقت آخر تعديل</value>
+  </data>
+  <data name="LastModifier" xml:space="preserve">
+    <value>آخر معدل</value>
+  </data>
+  <data name="Lastname" xml:space="preserve">
+    <value>اللقب</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="NotApproved" xml:space="preserve">
+    <value>غير معتمد</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>منظمة</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>كلمة المرور</value>
@@ -147,10 +222,37 @@
   <data name="PasswordsDoNotMatch" xml:space="preserve">
     <value>كلمات المرور غير متطابقة!</value>
   </data>
+  <data name="Path" xml:space="preserve">
+    <value>المسار</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>رقم الهاتف</value>
+  </data>
   <data name="RecordNotFound" xml:space="preserve">
     <value>لم يتم العثور على أي سجل.</value>
   </data>
+  <data name="Role" xml:space="preserve">
+    <value>دور</value>
+  </data>
+  <data name="Searched" xml:space="preserve">
+    <value>تم البحث عن</value>
+  </data>
+  <data name="SequenceNumber" xml:space="preserve">
+    <value>الرقم التسلسلي</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>تاريخ البدء</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>وقت البدء</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
   <data name="Username" xml:space="preserve">
     <value>اسم المستخدم</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>الإصدار</value>
   </data>
 </root>

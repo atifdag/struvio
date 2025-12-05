@@ -1,6 +1,6 @@
-using Struvio.Common.Models.AuthModels;
+using Struvio.Common.Models;
 
-namespace Struvio.Application.Services;
+namespace Struvio.Application.Services.Abstract;
 
 /// <summary>
 /// Authentication servisi arayüzü.

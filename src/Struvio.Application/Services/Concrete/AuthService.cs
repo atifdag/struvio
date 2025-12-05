@@ -2,34 +2,24 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Struvio.Common.Models.AuthModels;
+using Struvio.Application.Services.Abstract;
+using Struvio.Common.Models;
+using Struvio.Domain.Enums;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
-namespace Struvio.Application.Services;
+namespace Struvio.Application.Services.Concrete;
 
 /// <summary>
 /// Authentication servisinin implementasyonu.
 /// Kullanıcı girişi, JWT token oluşturma ve oturum yönetimi işlemlerini gerçekleştirir.
 /// </summary>
-public class AuthService : IAuthService
+public class AuthService(
+    UserManager<ApplicationUser> userManager,
+    ApplicationDbContext dbContext,
+    IConfiguration configuration,
+    IStruvioLogger logger) : IAuthService
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly ApplicationDbContext _dbContext;
-    private readonly IConfiguration _configuration;
-    private readonly IStruvioLogger _logger;
-
-    public AuthService(
-        UserManager<ApplicationUser> userManager,
-        ApplicationDbContext dbContext,
-        IConfiguration configuration,
-        IStruvioLogger logger)
-    {
-        _userManager = userManager;
-        _dbContext = dbContext;
-        _configuration = configuration;
-        _logger = logger;
-    }
 
     /// <summary>
     /// Kullanıcı girişi yapar, JWT token oluşturur ve UserSession kaydı ekler.
@@ -41,32 +31,32 @@ public class AuthService : IAuthService
         CancellationToken cancellationToken = default)
     {
         // 1. Kullanıcıyı kullanıcı adına göre bul
-        var user = await _userManager.FindByNameAsync(model.Username);
+        var user = await userManager.FindByNameAsync(model.Username);
         
         if (user == null)
         {
-            _logger.Warning("Login başarısız: Kullanıcı bulunamadı - {Username}", model.Username);
+            logger.Warning("Login başarısız: Kullanıcı bulunamadı - {Username}", model.Username);
             throw new NotFoundException(LanguageTexts.InvalidUsernameOrPassword);
         }
 
         // 2. Kullanıcı onaylı mı kontrol et
         if (!user.IsApproved)
         {
-            _logger.Warning("Login başarısız: Kullanıcı onaylı değil - {Username}", model.Username);
+            logger.Warning("Login başarısız: Kullanıcı onaylı değil - {Username}", model.Username);
             throw new NotFoundException(LanguageTexts.UserNotApproved);
         }
 
         // 3. Şifre doğrulaması
-        var passwordValid = await _userManager.CheckPasswordAsync(user, model.Password);
+        var passwordValid = await userManager.CheckPasswordAsync(user, model.Password);
         
         if (!passwordValid)
         {
-            _logger.Warning("Login başarısız: Geçersiz şifre - {Username}", model.Username);
+            logger.Warning("Login başarısız: Geçersiz şifre - {Username}", model.Username);
             throw new NotFoundException(LanguageTexts.InvalidUsernameOrPassword);
         }
 
         // 4. Kullanıcı detaylarını yükle (Language, Organization, Person)
-        var userWithDetails = await _dbContext.Users
+        var userWithDetails = await dbContext.Users
             .Include(x => x.Language)
             .Include(x => x.Organization)
             .Include(x => x.Person)
@@ -74,8 +64,32 @@ public class AuthService : IAuthService
 
         if (userWithDetails == null)
         {
+            logger.Error("Login başarısız: Kullanıcı detayları yüklenemedi - {Username}", model.Username);
             throw new NotFoundException(LanguageTexts.IdentityUserNotFound);
         }
+
+        var session = await dbContext.Set<UserSession>().FirstOrDefaultAsync(x => x.Creator.Id == user.Id, cancellationToken);
+        if (session != null)
+        {
+
+            // Açık oturum varsa, oturum geçmişine kaydet ve oturumu sil
+            await dbContext.Set<UserSessionHistory>().AddAsync(new UserSessionHistory
+            {
+                Id = Guid.CreateVersion7(),
+                UserSessionId = session.Id,
+                IpAddress = session.IpAddress,
+                AgentInfo = session.AgentInfo,
+                CreationTime = session.CreationTime,
+                LastModificationTime = DateTime.UtcNow,
+                CreatorId = session.Creator.Id,
+                LastModifierId = user.Id,
+                LogoutType = LogoutType.Forced
+            }, cancellationToken);
+
+            dbContext.Set<UserSession>().Remove(session);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
+
 
         // 5. JWT Token oluştur
         var token = GenerateJwtToken(userWithDetails);
@@ -92,10 +106,10 @@ public class AuthService : IAuthService
             Creator = userWithDetails
         };
 
-        _dbContext.Set<UserSession>().Add(userSession);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        dbContext.Set<UserSession>().Add(userSession);
+        await dbContext.SaveChangesAsync(cancellationToken);
 
-        _logger.Information("Login başarılı - User: {Username}, SessionId: {SessionId}", 
+        logger.Information("Login başarılı - User: {Username}, SessionId: {SessionId}", 
             userWithDetails.UserName, userSession.Id);
 
         // 7. Response oluştur
@@ -128,13 +142,13 @@ public class AuthService : IAuthService
         };
 
         var key = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey configuration is missing")));
+            Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey configuration is missing")));
         
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
+            issuer: configuration["Jwt:Issuer"],
+            audience: configuration["Jwt:Audience"],
             claims: claims,
             expires: DateTime.UtcNow.AddHours(GetTokenExpirationHours()),
             signingCredentials: credentials
@@ -148,7 +162,7 @@ public class AuthService : IAuthService
     /// </summary>
     private double GetTokenExpirationHours()
     {
-        var value = _configuration["Jwt:ExpirationHours"];
+        var value = configuration["Jwt:ExpirationHours"];
         return string.IsNullOrEmpty(value) ? 24 : double.Parse(value);
     }
 }

@@ -117,16 +117,117 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActionName" xml:space="preserve">
+    <value>Aksiyon adı</value>
+    <comment>Aksiyon adı</comment>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Tümü</value>
+    <comment>Tümü</comment>
+  </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>API anahtarı</value>
+    <comment>API anahtarı</comment>
+  </data>
+  <data name="ApiPassword" xml:space="preserve">
+    <value>API parolası</value>
+    <comment>API parolası</comment>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Onay</value>
+    <comment>Onay</comment>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Onaylı</value>
+    <comment>Onaylı</comment>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Kod</value>
+    <comment>Kod</comment>
+  </data>
+  <data name="CodeLanguageSpecific" xml:space="preserve">
+    <value>Kod (Dile özgü)</value>
+    <comment>Kod (Dile özgü)</comment>
+  </data>
+  <data name="ControllerName" xml:space="preserve">
+    <value>Kontrolör adı</value>
+    <comment>Kontrolör adı</comment>
+  </data>
+  <data name="CreationTime" xml:space="preserve">
+    <value>Oluşturulma tarihi</value>
+    <comment>Oluşturulma tarihi</comment>
+  </data>
+  <data name="Creator" xml:space="preserve">
+    <value>Oluşturan</value>
+    <comment>Oluşturan</comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Açıklama</value>
+    <comment>Açıklama</comment>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-posta</value>
+    <comment>E-posta</comment>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Bitiş tarihi</value>
+    <comment>Bitiş tarihi</comment>
+  </data>
   <data name="FieldIsEmpty" xml:space="preserve">
     <value>{0} alanı boş bırakılamaz.</value>
     <comment>{0} alanı boş bırakılamaz.</comment>
+  </data>
+  <data name="Firstname" xml:space="preserve">
+    <value>Adı</value>
+    <comment>Adı</comment>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>No</value>
+    <comment>No</comment>
+  </data>
+  <data name="IdentityNumber" xml:space="preserve">
+    <value>Kimlik no</value>
+    <comment>Kimlik no</comment>
   </data>
   <data name="IdentityUserNotFound" xml:space="preserve">
     <value>Kimlik bilgileri bulunamadı.</value>
     <comment>Kimlik bilgileri bulunamadı.</comment>
   </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>E-posta adresi geçerli değil.</value>
+    <comment>E-posta adresi geçerli değil.</comment>
+  </data>
   <data name="InvalidPassword" xml:space="preserve">
     <value>Parola yeterince karmaşık değil.</value>
+    <comment>Parola yeterince karmaşık değil.</comment>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Dil</value>
+    <comment>Language</comment>
+  </data>
+  <data name="LastModificationTime" xml:space="preserve">
+    <value>Değiştirilme tarihi</value>
+    <comment>Değiştirilme tarihi</comment>
+  </data>
+  <data name="LastModifier" xml:space="preserve">
+    <value>Değiştiren</value>
+    <comment>Değiştiren</comment>
+  </data>
+  <data name="Lastname" xml:space="preserve">
+    <value>Soyadı</value>
+    <comment>Soyadı</comment>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Ad</value>
+    <comment>Ad</comment>
+  </data>
+  <data name="NotApproved" xml:space="preserve">
+    <value>Onaysız</value>
+    <comment>Onaysız</comment>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>Organizasyon</value>
+    <comment>Organizasyon</comment>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Parola</value>
@@ -134,28 +235,70 @@
   </data>
   <data name="PasswordMustBeBetween8And15" xml:space="preserve">
     <value>Parola en az 8 en fazla 15 karakter olmalıdır.</value>
+    <comment>Parola en az 8 en fazla 15 karakter olmalıdır.</comment>
   </data>
   <data name="PasswordMustContainLowercase" xml:space="preserve">
     <value>Parola küçük harf içermelidir.</value>
+    <comment>Parola küçük harf içermelidir.</comment>
   </data>
   <data name="PasswordMustContainNumber" xml:space="preserve">
     <value>Parola rakam içermelidir.</value>
+    <comment>Parola rakam içermelidir.</comment>
   </data>
   <data name="PasswordMustContainSpecialCharacters" xml:space="preserve">
     <value>Parola özel karakter içermelidir.</value>
+    <comment>Parola özel karakter içermelidir.</comment>
   </data>
   <data name="PasswordMustContainUppercase" xml:space="preserve">
     <value>Parola büyük harf içermelidir.</value>
+    <comment>Parola büyük harf içermelidir.</comment>
   </data>
   <data name="PasswordsDoNotMatch" xml:space="preserve">
     <value>Parolalar aynı değil.</value>
+    <comment>Parolalar aynı değil.</comment>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>Yol</value>
+    <comment>Yol</comment>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Telefon no</value>
+    <comment>Telefon no</comment>
   </data>
   <data name="RecordNotFound" xml:space="preserve">
     <value>Kayıt bulunamadı.</value>
     <comment>Kayıt bulunamadı.</comment>
   </data>
+  <data name="Role" xml:space="preserve">
+    <value>Rol</value>
+    <comment>Rol</comment>
+  </data>
+  <data name="Searched" xml:space="preserve">
+    <value>Aranan</value>
+    <comment>Aranan</comment>
+  </data>
+  <data name="SequenceNumber" xml:space="preserve">
+    <value>Sıra no</value>
+    <comment>Sıra no</comment>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Başlangıç tarihi</value>
+    <comment>Başlangıç tarihi</comment>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Başlama zamanı</value>
+    <comment>Başlama zamanı</comment>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Durum</value>
+    <comment>Durum</comment>
+  </data>
   <data name="Username" xml:space="preserve">
     <value>Kullanıcı adı</value>
     <comment>Kullanıcı adı</comment>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Sürüm</value>
+    <comment>Sürüm</comment>
   </data>
 </root>

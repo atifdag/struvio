@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Struvio.Common.Utils;
+﻿namespace Struvio.Common.Utils;
 
 public static partial class RegexHelper
 {

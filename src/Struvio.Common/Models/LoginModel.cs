@@ -1,4 +1,4 @@
-namespace Struvio.Common.Models.AuthModels;
+namespace Struvio.Common.Models;
 
 public class LoginModel
 {

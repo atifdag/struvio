@@ -1,5 +1,6 @@
-﻿using Struvio.Application.Services;
-using Struvio.Common.Models.AuthModels;
+﻿using Struvio.Application.Services.Abstract;
+using Struvio.Common.Models;
+using Struvio.Common.ValueObjects;
 
 namespace Struvio.UI.Web.Api.Controllers;
 
@@ -22,16 +23,20 @@ public class AuthController(IAuthService authService, IStruvioLogger logger) : C
     /// <response code="400">Geçersiz model</response>
     /// <response code="401">Geçersiz kullanıcı adı veya şifre</response>
     [HttpPost("login")]
-    [ProducesResponseType(typeof(LoginResponseModel), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ApiResponse<LoginResponseModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Login([FromBody] LoginModel model, CancellationToken cancellationToken)
     {
         try
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var errors = string.Join(", ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+                
+                return BadRequest(ApiResponse.Error(errors));
             }
 
             var ipAddress = HttpContext.GetIpAddress();
@@ -41,12 +46,12 @@ public class AuthController(IAuthService authService, IStruvioLogger logger) : C
 
             logger.Information("Login endpoint başarılı - Username: {Username}", model.Username);
 
-            return Ok(response);
+            return Ok(ApiResponse<LoginResponseModel>.Success(response, "Login başarılı"));
         }
         catch (Exception ex)
         {
             logger.Error(ex, "Login endpoint hatası - Username: {Username}", model.Username);
-            return Unauthorized(new { message = ex.Message });
+            return Unauthorized(ApiResponse.Error(ex.Message));
         }
     }
 }

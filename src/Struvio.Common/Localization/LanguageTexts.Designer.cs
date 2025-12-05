@@ -61,11 +61,164 @@ namespace Struvio.Common.Localization {
         }
         
         /// <summary>
+        ///   Aksiyon adı benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string ActionName {
+            get {
+                return ResourceManager.GetString("ActionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Tümü benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string All {
+            get {
+                return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   API anahtarı benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string ApiKey {
+            get {
+                return ResourceManager.GetString("ApiKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   API parolası benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string ApiPassword {
+            get {
+                return ResourceManager.GetString("ApiPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Onay benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Approve {
+            get {
+                return ResourceManager.GetString("Approve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Onaylı benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Approved {
+            get {
+                return ResourceManager.GetString("Approved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Kod benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Code {
+            get {
+                return ResourceManager.GetString("Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Kod (Dile özgü) benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string CodeLanguageSpecific {
+            get {
+                return ResourceManager.GetString("CodeLanguageSpecific", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Kontrolör adı benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string ControllerName {
+            get {
+                return ResourceManager.GetString("ControllerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Oluşturulma tarihi benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string CreationTime {
+            get {
+                return ResourceManager.GetString("CreationTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Oluşturan benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Creator {
+            get {
+                return ResourceManager.GetString("Creator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Açıklama benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   E-posta benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bitiş tarihi benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string EndDate {
+            get {
+                return ResourceManager.GetString("EndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} alanı boş bırakılamaz. benzeri yerelleştirilmiş bir dize arar.
         /// </summary>
         public static string FieldIsEmpty {
             get {
                 return ResourceManager.GetString("FieldIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Adı benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Firstname {
+            get {
+                return ResourceManager.GetString("Firstname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Id {
+            get {
+                return ResourceManager.GetString("Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Kimlik no benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string IdentityNumber {
+            get {
+                return ResourceManager.GetString("IdentityNumber", resourceCulture);
             }
         }
         
@@ -79,11 +232,83 @@ namespace Struvio.Common.Localization {
         }
         
         /// <summary>
+        ///   E-posta adresi geçerli değil. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string InvalidEmail {
+            get {
+                return ResourceManager.GetString("InvalidEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Parola yeterince karmaşık değil. benzeri yerelleştirilmiş bir dize arar.
         /// </summary>
         public static string InvalidPassword {
             get {
                 return ResourceManager.GetString("InvalidPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Dil benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Değiştirilme tarihi benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string LastModificationTime {
+            get {
+                return ResourceManager.GetString("LastModificationTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Değiştiren benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string LastModifier {
+            get {
+                return ResourceManager.GetString("LastModifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Soyadı benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Lastname {
+            get {
+                return ResourceManager.GetString("Lastname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ad benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Onaysız benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string NotApproved {
+            get {
+                return ResourceManager.GetString("NotApproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Organizasyon benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Organization {
+            get {
+                return ResourceManager.GetString("Organization", resourceCulture);
             }
         }
         
@@ -151,6 +376,24 @@ namespace Struvio.Common.Localization {
         }
         
         /// <summary>
+        ///   Yol benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Path {
+            get {
+                return ResourceManager.GetString("Path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Telefon no benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string PhoneNumber {
+            get {
+                return ResourceManager.GetString("PhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Kayıt bulunamadı. benzeri yerelleştirilmiş bir dize arar.
         /// </summary>
         public static string RecordNotFound {
@@ -160,11 +403,74 @@ namespace Struvio.Common.Localization {
         }
         
         /// <summary>
+        ///   Rol benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Role {
+            get {
+                return ResourceManager.GetString("Role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Aranan benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Searched {
+            get {
+                return ResourceManager.GetString("Searched", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sıra no benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string SequenceNumber {
+            get {
+                return ResourceManager.GetString("SequenceNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Başlangıç tarihi benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string StartDate {
+            get {
+                return ResourceManager.GetString("StartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Başlama zamanı benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string StartTime {
+            get {
+                return ResourceManager.GetString("StartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Durum benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Kullanıcı adı benzeri yerelleştirilmiş bir dize arar.
         /// </summary>
         public static string Username {
             get {
                 return ResourceManager.GetString("Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sürüm benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
             }
         }
     }

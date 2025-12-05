@@ -1,3 +1,6 @@
+using Struvio.Application.Services.Abstract;
+using Struvio.Application.Services.Concrete;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Serilog yapılandırması - appsettings.json'dan okunur
@@ -26,7 +29,7 @@ builder.Services.AddDbContext<Struvio.Persistence.ApplicationDbContext>(options 
 builder.BuildIdentity();
 
 // Application Services
-builder.Services.AddScoped<Struvio.Application.Services.IAuthService, Struvio.Application.Services.AuthService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICurrentUserContext, Struvio.Application.CurrentUserContext>();
 builder.Services.AddScoped<IPrincipal>(provider => provider.GetRequiredService<IHttpContextAccessor>().HttpContext?.User 
     ?? throw new InvalidOperationException("User context is not available."));

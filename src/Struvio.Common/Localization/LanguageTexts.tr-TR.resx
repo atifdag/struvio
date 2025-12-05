@@ -117,14 +117,89 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActionName" xml:space="preserve">
+    <value>Aksiyon adı</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Tümü</value>
+  </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>API anahtarı</value>
+  </data>
+  <data name="ApiPassword" xml:space="preserve">
+    <value>API parolası</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Onay</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Onaylı</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Kod</value>
+  </data>
+  <data name="CodeLanguageSpecific" xml:space="preserve">
+    <value>Kod (Dile özgü)</value>
+  </data>
+  <data name="ControllerName" xml:space="preserve">
+    <value>Kontrolör adı</value>
+  </data>
+  <data name="CreationTime" xml:space="preserve">
+    <value>Oluşturulma tarihi</value>
+  </data>
+  <data name="Creator" xml:space="preserve">
+    <value>Oluşturan</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Açıklama</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-posta</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Bitiş tarihi</value>
+  </data>
   <data name="FieldIsEmpty" xml:space="preserve">
     <value>{0} alanı boş bırakılamaz.</value>
+  </data>
+  <data name="Firstname" xml:space="preserve">
+    <value>Adı</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="IdentityNumber" xml:space="preserve">
+    <value>Kimlik no</value>
   </data>
   <data name="IdentityUserNotFound" xml:space="preserve">
     <value>Kimlik bilgileri bulunamadı.</value>
   </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>E-posta adresi geçerli değil.</value>
+  </data>
   <data name="InvalidPassword" xml:space="preserve">
     <value>Parola yeterince karmaşık değil.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Dil</value>
+  </data>
+  <data name="LastModificationTime" xml:space="preserve">
+    <value>Değiştirilme tarihi</value>
+  </data>
+  <data name="LastModifier" xml:space="preserve">
+    <value>Değiştiren</value>
+  </data>
+  <data name="Lastname" xml:space="preserve">
+    <value>Soyadı</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Ad</value>
+  </data>
+  <data name="NotApproved" xml:space="preserve">
+    <value>Onaysız</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>Organizasyon</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Parola</value>
@@ -147,10 +222,37 @@
   <data name="PasswordsDoNotMatch" xml:space="preserve">
     <value>Parolalar aynı değil.</value>
   </data>
+  <data name="Path" xml:space="preserve">
+    <value>Yol</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Telefon no</value>
+  </data>
   <data name="RecordNotFound" xml:space="preserve">
     <value>Kayıt bulunamadı.</value>
   </data>
+  <data name="Role" xml:space="preserve">
+    <value>Rol</value>
+  </data>
+  <data name="Searched" xml:space="preserve">
+    <value>Aranan</value>
+  </data>
+  <data name="SequenceNumber" xml:space="preserve">
+    <value>Sıra no</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Başlangıç tarihi</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Başlama zamanı</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Durum</value>
+  </data>
   <data name="Username" xml:space="preserve">
     <value>Kullanıcı adı</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Sürüm</value>
   </data>
 </root>

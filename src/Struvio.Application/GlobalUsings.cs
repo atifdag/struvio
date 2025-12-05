@@ -13,3 +13,4 @@ global using Struvio.Domain.Exceptions;
 global using Struvio.Domain.Utils;
 global using Struvio.Common;
 global using Microsoft.Extensions.Caching.Distributed;
+global using Struvio.Common.Models;
