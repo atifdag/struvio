@@ -61,6 +61,15 @@ namespace Struvio.Common.Localization {
         }
         
         /// <summary>
+        ///   Erişim engellendi. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string AccessDenied {
+            get {
+                return ResourceManager.GetString("AccessDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Aksiyon adı benzeri yerelleştirilmiş bir dize arar.
         /// </summary>
         public static string ActionName {
@@ -426,6 +435,24 @@ namespace Struvio.Common.Localization {
         public static string SequenceNumber {
             get {
                 return ResourceManager.GetString("SequenceNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Oturum süresi doldu. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string SessionExpired {
+            get {
+                return ResourceManager.GetString("SessionExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Oturum gerekli. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string SessionRequired {
+            get {
+                return ResourceManager.GetString("SessionRequired", resourceCulture);
             }
         }
         

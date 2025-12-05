@@ -33,53 +33,6 @@ public static class WebApiExtensions
             return app.UseMiddleware<InstallationMiddleware>();
         }
 
-    }
-
-
-
-    extension(HttpContext httpContext)
-    {
-        public string? GetIpAddress()
-        {
-            if (httpContext == null) return null;
-
-            // Reverse proxy'ler üzerinden gelen IP
-            if (httpContext.Request.Headers.TryGetValue("X-Forwarded-For", out var forwardedFor) &&
-                !string.IsNullOrWhiteSpace(forwardedFor))
-            {
-                // Virgülle ayrılmışsa ilk IP'yi al (ilk proxy kaynağı)
-                return forwardedFor.ToString().Split(',').FirstOrDefault()?.Trim();
-            }
-
-            // Doğrudan bağlantı IP'si
-            return httpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
-        }
-
-        public string? GetUserAgent()
-        {
-            return httpContext?.Request?.Headers.UserAgent.ToString();
-        }
-    }
-
-    extension(WebApplicationBuilder webApplicationBuilder)
-    {
-        public IdentityBuilder BuildIdentity()
-        {
-            return webApplicationBuilder.Services.AddIdentity<ApplicationUser, ApplicationRole>(
-                options =>
-                {
-                    options.Password.RequireDigit = true;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.User.RequireUniqueEmail = false;
-                    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                }).AddEntityFrameworkStores<ApplicationDbContext>();
-        }
-    }
-
-    extension(IApplicationBuilder app)
-    {
         public IApplicationBuilder UseAccsivoAuthentication(Func<HttpContext, Task> notAuthenticated, Func<HttpContext, Task> denyAccess, Func<HttpContext, Task> expiredSession)
         {
             return app.Use(async (httpContext, next) =>
@@ -166,6 +119,51 @@ public static class WebApiExtensions
 
                 await next();
             });
+        }
+
+
+    }
+
+
+
+    extension(HttpContext httpContext)
+    {
+        public string? GetIpAddress()
+        {
+            if (httpContext == null) return null;
+
+            // Reverse proxy'ler üzerinden gelen IP
+            if (httpContext.Request.Headers.TryGetValue("X-Forwarded-For", out var forwardedFor) &&
+                !string.IsNullOrWhiteSpace(forwardedFor))
+            {
+                // Virgülle ayrılmışsa ilk IP'yi al (ilk proxy kaynağı)
+                return forwardedFor.ToString().Split(',').FirstOrDefault()?.Trim();
+            }
+
+            // Doğrudan bağlantı IP'si
+            return httpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
+        }
+
+        public string? GetUserAgent()
+        {
+            return httpContext?.Request?.Headers.UserAgent.ToString();
+        }
+    }
+
+    extension(WebApplicationBuilder webApplicationBuilder)
+    {
+        public IdentityBuilder BuildIdentity()
+        {
+            return webApplicationBuilder.Services.AddIdentity<ApplicationUser, ApplicationRole>(
+                options =>
+                {
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.User.RequireUniqueEmail = false;
+                    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                }).AddEntityFrameworkStores<ApplicationDbContext>();
         }
     }
 }

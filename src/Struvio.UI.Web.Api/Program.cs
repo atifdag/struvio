@@ -1,6 +1,3 @@
-using Struvio.Application.Services.Abstract;
-using Struvio.Application.Services.Concrete;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Serilog yapılandırması - appsettings.json'dan okunur
@@ -20,7 +17,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IStruvioLogger, StruvioLogger>();
 
 // Database Context
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<Struvio.Persistence.ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
@@ -31,7 +28,7 @@ builder.BuildIdentity();
 // Application Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICurrentUserContext, Struvio.Application.CurrentUserContext>();
-builder.Services.AddScoped<IPrincipal>(provider => provider.GetRequiredService<IHttpContextAccessor>().HttpContext?.User 
+builder.Services.AddScoped<IPrincipal>(provider => provider.GetRequiredService<IHttpContextAccessor>().HttpContext?.User
     ?? throw new InvalidOperationException("User context is not available."));
 
 // JWT Authentication yapılandırması
@@ -102,6 +99,29 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseAccsivoAuthentication(async httpContext =>
+{
+    Log.Warning("Kimlik oturumu gerektiren eri�im! Path: {Path}", httpContext.Request.Path);
+
+    httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+    await httpContext.Response.WriteAsJsonAsync(new { success = false, message = LanguageTexts.SessionRequired });
+},
+async httpContext =>
+{
+    Log.Warning("Yetkisiz eri�im! Path: {Path}", httpContext.Request.Path);
+
+    httpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
+    await httpContext.Response.WriteAsJsonAsync(new { success = false, message = LanguageTexts.AccessDenied });
+},
+async httpContext =>
+{
+    Log.Warning("Oturum s�resi dolmu�. Path: {Path}", httpContext.Request.Path);
+
+    httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+    await httpContext.Response.WriteAsJsonAsync(new { success = false, message = LanguageTexts.SessionExpired });
+}
+);
 
 app.MapControllers();
 

@@ -27,3 +27,5 @@ global using Struvio.Common.Models;
 global using Struvio.Domain.Entities;
 global using Struvio.Persistence;
 global using System.Security.Claims;
+global using Struvio.Application.Services.Concrete;
+global using Struvio.Common.Localization;

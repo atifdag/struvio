@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>Erişim engellendi.</value>
+    <comment>Erişim engellendi.</comment>
+  </data>
   <data name="ActionName" xml:space="preserve">
     <value>Aksiyon adı</value>
     <comment>Aksiyon adı</comment>
@@ -280,6 +284,14 @@
   <data name="SequenceNumber" xml:space="preserve">
     <value>Sıra no</value>
     <comment>Sıra no</comment>
+  </data>
+  <data name="SessionExpired" xml:space="preserve">
+    <value>Oturum süresi doldu.</value>
+    <comment>Oturum süresi doldu.</comment>
+  </data>
+  <data name="SessionRequired" xml:space="preserve">
+    <value>Oturum gerekli.</value>
+    <comment>Oturum gerekli.</comment>
   </data>
   <data name="StartDate" xml:space="preserve">
     <value>Başlangıç tarihi</value>
