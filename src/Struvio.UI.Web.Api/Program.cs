@@ -27,6 +27,21 @@ builder.BuildIdentity();
 
 // Application Services
 builder.Services.AddScoped<IAuthService, AuthService>();
+// Cache Services
+builder.Services.AddMemoryCache();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "Struvio:";
+});
+builder.Services.AddSingleton<ICacheSettings>(sp =>
+{
+    var cacheSettings = new Struvio.Application.Caching.CacheSettings();
+    builder.Configuration.GetSection("Cache").Bind(cacheSettings);
+    return cacheSettings;
+});
+builder.Services.AddScoped<ICacheService, Struvio.Application.Caching.CacheService>();
+
 builder.Services.AddScoped<ICurrentUserContext, Struvio.Application.CurrentUserContext>();
 builder.Services.AddScoped<IPrincipal>(provider => provider.GetRequiredService<IHttpContextAccessor>().HttpContext?.User
     ?? throw new InvalidOperationException("User context is not available."));
@@ -57,6 +72,9 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorization();
+
+// Health Checks - Merkezileştirilmiş yapılandırma
+builder.Services.AddStruvioHealthChecks();
 
 builder.Services.AddControllers();
 
@@ -94,34 +112,34 @@ app.UseLocalization();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-
+    app.MapScalarApiReference();
 }
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseAccsivoAuthentication(async httpContext =>
-{
-    Log.Warning("Kimlik oturumu gerektiren eri�im! Path: {Path}", httpContext.Request.Path);
+// TODO: IPermissionService ve IAccountService implement edildikten sonra aktif edilecek
+// app.UseAccsivoAuthentication(async httpContext =>
+// {
+//     Log.Warning("Kimlik oturumu gerektiren eri�im! Path: {Path}", httpContext.Request.Path);
+//     httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+//     await httpContext.Response.WriteAsJsonAsync(new { success = false, message = LanguageTexts.SessionRequired });
+// },
+// async httpContext =>
+// {
+//     Log.Warning("Yetkisiz eri�im! Path: {Path}", httpContext.Request.Path);
+//     httpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
+//     await httpContext.Response.WriteAsJsonAsync(new { success = false, message = LanguageTexts.AccessDenied });
+// },
+// async httpContext =>
+// {
+//     Log.Warning("Oturum s�resi dolmu�. Path: {Path}", httpContext.Request.Path);
+//     httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+//     await httpContext.Response.WriteAsJsonAsync(new { success = false, message = LanguageTexts.SessionExpired });
+// });
 
-    httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-    await httpContext.Response.WriteAsJsonAsync(new { success = false, message = LanguageTexts.SessionRequired });
-},
-async httpContext =>
-{
-    Log.Warning("Yetkisiz eri�im! Path: {Path}", httpContext.Request.Path);
-
-    httpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
-    await httpContext.Response.WriteAsJsonAsync(new { success = false, message = LanguageTexts.AccessDenied });
-},
-async httpContext =>
-{
-    Log.Warning("Oturum s�resi dolmu�. Path: {Path}", httpContext.Request.Path);
-
-    httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-    await httpContext.Response.WriteAsJsonAsync(new { success = false, message = LanguageTexts.SessionExpired });
-}
-);
+// Health Check Endpoints - Merkezileştirilmiş yapılandırma
+app.MapStruvioHealthChecks();
 
 app.MapControllers();
 
