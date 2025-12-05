@@ -117,10 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FieldIsEmpty" xml:space="preserve">
+    <value>لا يمكن ترك حقل {0} فارغًا!</value>
+  </data>
   <data name="IdentityUserNotFound" xml:space="preserve">
     <value>لم يتم العثور على معلومات التعريف.</value>
   </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>كلمة المرور ليست معقدة بما فيه الكفاية!</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="PasswordMustBeBetween8And15" xml:space="preserve">
+    <value>يجب أن تكون كلمة المرور بين 8 و 15 حرفًا!</value>
+  </data>
+  <data name="PasswordMustContainLowercase" xml:space="preserve">
+    <value>يجب أن تحتوي كلمة المرور على أحرف صغيرة!</value>
+  </data>
+  <data name="PasswordMustContainNumber" xml:space="preserve">
+    <value>يجب أن تحتوي كلمة المرور على أرقام!</value>
+  </data>
+  <data name="PasswordMustContainSpecialCharacters" xml:space="preserve">
+    <value>يجب أن تحتوي كلمة المرور على أحرف خاصة!</value>
+  </data>
+  <data name="PasswordMustContainUppercase" xml:space="preserve">
+    <value>يجب أن تحتوي كلمة المرور على أحرف كبيرة!</value>
+  </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>كلمات المرور غير متطابقة!</value>
+  </data>
   <data name="RecordNotFound" xml:space="preserve">
     <value>لم يتم العثور على أي سجل.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>اسم المستخدم</value>
   </data>
 </root>

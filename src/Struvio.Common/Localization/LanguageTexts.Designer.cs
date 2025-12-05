@@ -61,6 +61,15 @@ namespace Struvio.Common.Localization {
         }
         
         /// <summary>
+        ///   {0} alanı boş bırakılamaz. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string FieldIsEmpty {
+            get {
+                return ResourceManager.GetString("FieldIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Kimlik bilgileri bulunamadı. benzeri yerelleştirilmiş bir dize arar.
         /// </summary>
         public static string IdentityUserNotFound {
@@ -70,11 +79,92 @@ namespace Struvio.Common.Localization {
         }
         
         /// <summary>
+        ///   Parola yeterince karmaşık değil. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string InvalidPassword {
+            get {
+                return ResourceManager.GetString("InvalidPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Parola benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Parola en az 8 en fazla 15 karakter olmalıdır. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string PasswordMustBeBetween8And15 {
+            get {
+                return ResourceManager.GetString("PasswordMustBeBetween8And15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Parola küçük harf içermelidir. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string PasswordMustContainLowercase {
+            get {
+                return ResourceManager.GetString("PasswordMustContainLowercase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Parola rakam içermelidir. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string PasswordMustContainNumber {
+            get {
+                return ResourceManager.GetString("PasswordMustContainNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Parola özel karakter içermelidir. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string PasswordMustContainSpecialCharacters {
+            get {
+                return ResourceManager.GetString("PasswordMustContainSpecialCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Parola büyük harf içermelidir. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string PasswordMustContainUppercase {
+            get {
+                return ResourceManager.GetString("PasswordMustContainUppercase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Parolalar aynı değil. benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string PasswordsDoNotMatch {
+            get {
+                return ResourceManager.GetString("PasswordsDoNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Kayıt bulunamadı. benzeri yerelleştirilmiş bir dize arar.
         /// </summary>
         public static string RecordNotFound {
             get {
                 return ResourceManager.GetString("RecordNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Kullanıcı adı benzeri yerelleştirilmiş bir dize arar.
+        /// </summary>
+        public static string Username {
+            get {
+                return ResourceManager.GetString("Username", resourceCulture);
             }
         }
     }

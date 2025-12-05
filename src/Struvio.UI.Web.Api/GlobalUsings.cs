@@ -13,3 +13,4 @@ global using Microsoft.AspNetCore.HttpOverrides;
 global using Struvio.UI.Web.Api.Utils;
 global using System.Text.Encodings.Web;
 global using System.Text.Unicode;
+global using Microsoft.AspNetCore.Mvc;

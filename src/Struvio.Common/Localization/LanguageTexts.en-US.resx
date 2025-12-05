@@ -117,10 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FieldIsEmpty" xml:space="preserve">
+    <value>{0} field cannot be empty!</value>
+  </data>
   <data name="IdentityUserNotFound" xml:space="preserve">
     <value>No identification information found.</value>
   </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>Password is not complex enough!</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswordMustBeBetween8And15" xml:space="preserve">
+    <value>Password must be between 8 and 15 characters!</value>
+  </data>
+  <data name="PasswordMustContainLowercase" xml:space="preserve">
+    <value>Password must contain lowercase letters!</value>
+  </data>
+  <data name="PasswordMustContainNumber" xml:space="preserve">
+    <value>Password must contain numbers!</value>
+  </data>
+  <data name="PasswordMustContainSpecialCharacters" xml:space="preserve">
+    <value>Password must contain special characters!</value>
+  </data>
+  <data name="PasswordMustContainUppercase" xml:space="preserve">
+    <value>Password must contain uppercase letters!</value>
+  </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>Passwords do not match!</value>
+  </data>
   <data name="RecordNotFound" xml:space="preserve">
     <value>No record found.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
   </data>
 </root>

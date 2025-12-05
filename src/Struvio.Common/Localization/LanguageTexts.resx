@@ -117,12 +117,45 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FieldIsEmpty" xml:space="preserve">
+    <value>{0} alanı boş bırakılamaz.</value>
+    <comment>{0} alanı boş bırakılamaz.</comment>
+  </data>
   <data name="IdentityUserNotFound" xml:space="preserve">
     <value>Kimlik bilgileri bulunamadı.</value>
     <comment>Kimlik bilgileri bulunamadı.</comment>
   </data>
-    <data name="RecordNotFound" xml:space="preserve">
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>Parola yeterince karmaşık değil.</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Parola</value>
+    <comment>Parola</comment>
+  </data>
+  <data name="PasswordMustBeBetween8And15" xml:space="preserve">
+    <value>Parola en az 8 en fazla 15 karakter olmalıdır.</value>
+  </data>
+  <data name="PasswordMustContainLowercase" xml:space="preserve">
+    <value>Parola küçük harf içermelidir.</value>
+  </data>
+  <data name="PasswordMustContainNumber" xml:space="preserve">
+    <value>Parola rakam içermelidir.</value>
+  </data>
+  <data name="PasswordMustContainSpecialCharacters" xml:space="preserve">
+    <value>Parola özel karakter içermelidir.</value>
+  </data>
+  <data name="PasswordMustContainUppercase" xml:space="preserve">
+    <value>Parola büyük harf içermelidir.</value>
+  </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>Parolalar aynı değil.</value>
+  </data>
+  <data name="RecordNotFound" xml:space="preserve">
     <value>Kayıt bulunamadı.</value>
     <comment>Kayıt bulunamadı.</comment>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Kullanıcı adı</value>
+    <comment>Kullanıcı adı</comment>
   </data>
 </root>
